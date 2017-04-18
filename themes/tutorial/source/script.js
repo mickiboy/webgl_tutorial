@@ -142,10 +142,6 @@ function main() {
 
 $(document).ready(function() {
     $('.ui.sidebar').sidebar('attach events', '.toc.item');
-
-    $('pre').each(function(i, block) {
-        hljs.highlightBlock(block);
-    });
 });
 
 main();
