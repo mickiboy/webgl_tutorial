@@ -1,7 +1,8 @@
 <div class="ui vertical inverted sidebar menu">
-    <a class="active item">Startseite</a>
-    <a class="item">Einrichtung</a>
-    <a class="item">Erstes Dreieck</a>
+    <a class="active item" href="<%- url_for() %>">Startseite</a>
+    <% site.posts.each(function(post) { %>
+    <a class="item" href="<%- url_for(post.path) %>"><%- post.title %></a>
+    <% }) %>
 </div>
 
 <div class="pusher">
@@ -11,10 +12,11 @@
         <div class="ui container">
             <div class="ui inverted secondary pointing menu">
                 <a class="toc item"><i class="sidebar icon"></i></a>
-                <a class="header item" href="#">WebGL Tutorial</a>
+                <a class="header item" href="<%- url_for() %>">WebGL Tutorial</a>
                 <div class="right menu">
-                    <a class="item">Einrichtung</a>
-                    <a class="item">Erstes Dreieck</a>
+                    <% site.posts.each(function(post) { %>
+                    <a class="item" href="<%- url_for(post.path) %>"><%- post.title %></a>
+                    <% }) %>
                 </div>
             </div>
         </div>
@@ -22,7 +24,7 @@
         <div class="ui text container">
             <h1 class="ui inverted header">WebGL Tutorial</h1>
             <h2>Jetzt auch mal auf Deutsch!</h2>
-            <a class="ui huge primary button" href="#">Los geht's <i class="right arrow icon"></i></a>
+            <a class="ui huge primary button" href="<%- url_for('einrichtung') %>">Los geht's <i class="right arrow icon"></i></a>
         </div>
     </div>
 </div>

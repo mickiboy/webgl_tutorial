@@ -1,0 +1,35 @@
+<div class="ui vertical inverted sidebar menu">
+    <a class="item" href="<%- url_for() %>">Startseite</a>
+    <% site.posts.each(function(post) { %>
+    <% if (is_current(post.path)) { %>
+    <a class="active item" href="<%- url_for(post.path) %>"><%- post.title %></a>
+    <% } else { %>
+    <a class="item" href="<%- url_for(post.path) %>"><%- post.title %></a>
+    <% } %>
+    <% }) %>
+</div>
+
+<div class="pusher">
+    <div class="ui vertical post segment">
+        <div class="ui container">
+            <div class="ui secondary pointing menu">
+                <a class="toc item"><i class="sidebar icon"></i></a>
+                <a class="header item" href="<%- url_for() %>">WebGL Tutorial</a>
+                <div class="right menu">
+                    <% site.posts.each(function(post) { %>
+                    <% if (is_current(post.path)) { %>
+                    <a class="active item" href="<%- url_for(post.path) %>"><%- post.title %></a>
+                    <% } else { %>
+                    <a class="item" href="<%- url_for(post.path) %>"><%- post.title %></a>
+                    <% } %>
+                    <% }) %>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui text container">
+            <h1 class="ui header"><%- page.title %></h1>
+            <%- page.content %>
+        </div>
+    </div>
+</div>
