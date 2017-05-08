@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <title>WebGL Tutorial - </title>
+
+    <link rel="stylesheet" href="/webgl_tutorial/semantic.min.css">
+    <link rel="stylesheet" href="/webgl_tutorial/style.css">
+  </head>
+
+    <body>
+<div class="ui vertical inverted sidebar menu">
+    <a class="active item" href="/webgl_tutorial/">Startseite</a>
+    
+    <a class="item" href="/webgl_tutorial/einrichtung/">Einrichtung</a>
+    
+</div>
+
+<div class="pusher">
+    <canvas id="webgl-canvas"></canvas>
+
+    <div class="ui inverted vertical home center aligned segment">
+        <div class="ui container">
+            <div class="ui inverted secondary pointing menu">
+                <a class="toc item"><i class="sidebar icon"></i></a>
+                <a class="header item" href="/webgl_tutorial/">WebGL Tutorial</a>
+                <div class="right menu">
+                    
+                    <a class="item" href="/webgl_tutorial/einrichtung/">Einrichtung</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="ui text container">
+            <h1 class="ui inverted header">WebGL Tutorial</h1>
+            <h2>Jetzt auch mal auf Deutsch!</h2>
+            <a class="ui huge primary button" href="/webgl_tutorial/einrichtung">Los geht's <i class="right arrow icon"></i></a>
+        </div>
+    </div>
+</div>
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+    attribute vec2 a_position;
+    uniform mat3 u_modelMatrix2d;
+    uniform mat4 u_viewMatrix;
+    uniform mat4 u_projectionMatrix;
+
+    void main() {
+        gl_Position = u_projectionMatrix * u_viewMatrix * vec4((vec3(a_position, 1.0) * u_modelMatrix2d).xy, 0.0, 1.0);
+    }
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+    precision mediump float;
+
+    void main() {
+        gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+    }
+</script>
+
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="/webgl_tutorial/semantic.min.js"></script>
+        <script src="/webgl_tutorial/helpers.js"></script>
+        <script src="/webgl_tutorial/script.js"></script>
+    </body>
+</html>

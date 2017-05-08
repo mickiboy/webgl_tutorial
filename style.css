@@ -1,0 +1,69 @@
+#webgl-canvas {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: -1;
+}
+
+.home.segment {
+    background: none !important;
+    min-height: 700px;
+    padding: 1em 0em;
+}
+
+.home .ui.pointing.menu {
+    border: none;
+}
+
+.post .ui.pointing.menu {
+    border: none;
+}
+
+.home h1.ui.header {
+    margin-top: 3em;
+    margin-bottom: 0em;
+    font-size: 4em;
+    font-weight: normal;
+    text-shadow: 0 0 5px #000;
+}
+
+.home h2 {
+    font-size: 1.7em;
+    font-weight: normal;
+    text-shadow: 0 0 5px #000;
+}
+
+.home .ui.button {
+    box-shadow: 0 0 5px #000;
+}
+
+.secondary.pointing.menu .toc.item {
+    display: none;
+}
+
+@media only screen and (max-width: 700px) {
+    .secondary.pointing.menu .item,
+    .secondary.pointing.menu .menu {
+        display: none;
+    }
+
+    .secondary.pointing.menu .toc.item {
+        display: block;
+    }
+
+    .home.segment {
+        min-height: 350px;
+    }
+
+    .home h1.ui.header {
+        font-size: 2em;
+        margin-top: 1.5em;
+    }
+
+    .home h2 {
+        font-size: 1.5em;
+        margin-top: 0.5em;
+    }
+}
