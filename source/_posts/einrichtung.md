@@ -1,21 +1,255 @@
 ---
 title: Einrichtung
 ---
-TODO: Vorwort
-
 <div class="ui info message"><div class="header">Hinweis</div>Falls Sie es eilig haben, können Sie auch eine bereits eingerichtete Ordnerstruktur von [GitHub](https://github.com/mickiboy/webgl_template) klonen. Zusätzlich gibt es die Möglichkeit, den Browser automatisch neu laden zu lassen, sobald Sie Änderungen am Quellcode vornehmen.</div>
 
-## HTML
+Um mit WebGL durchzustarten, sollten wir nun schrittweise versuchen, ein
+einfaches Dreieck zu zeichnen. Dazu brauchen wir eine HTML-Datei, deren Körper
+lediglich aus einem Canvas bestehen kann. Zusätzlich müssen sowohl ein Vertex-
+als auch ein Fragment-Shader eingebettet werden. Was diese Shader machen, wird
+am Schluss erklärt.
+
+## HTML und CSS
+
+Da dies ein Tutorial für WebGL ist, wird der Fokus auf JavaScript gelegt,
+deshalb hier beispielhaft ein vollständiges HTML-Dokument, inklusive
+Anpassungen per CSS:
 
 ```html
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+    <link rel="stylesheet" href="style.css">
+
+    <title>WebGL Template</title>
+  </head>
+
+  <body>
+    <canvas id="webgl-canvas"></canvas>
+
+    <script id="vertex-shader" type="x-shader/x-vertex">
+      attribute vec2 a_position;
+
+      void main() {
+        gl_Position = vec4(a_position, 0.0, 1.0);
+      }
+    </script>
+
+    <script id="fragment-shader" type="x-shader/x-fragment">
+      precision mediump float;
+
+      void main() {
+        gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+      }
+    </script>
+
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/mathjs/3.12.0/math.min.js"></script>
+    <script type="text/javascript" src="helpers.js"></script>
+    <script type="text/javascript" src="script.js"></script>
   </body>
 </html>
 ```
+
+```css
+body {
+  margin: 0;
+}
+
+#webgl-canvas {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+}
+```
+
+In der HTML-Datei befinden sich auch Verweise auf mehrere JavaScripts. Das
+erste ist Math.js, eine nützliche Bibliothek mit vielen nützlichen
+mathematischen Funktionen. Das zweite Skript enthält zwei Funktionen, die
+dafür sorgen, dass die oben angegebenen Shader kompiliert werden. Dieses
+Skript sieht so aus:
+
+```js
+function priv_compileShader(gl, type, source) {
+    var shader = gl.createShader(type);
+
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+
+    var success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
+    if (success) return shader;
+
+    console.log(gl.getShaderInfoLog(shader));
+    gl.deleteShader(shader);
+}
+
+/**
+ * Creates a shader program from the given source code of the vertex and
+ * fragment shader.
+ *
+ * @param gl WebGL context
+ * @param vertexShader ID of the vertex shader
+ * @param fragmentShader ID of the fragment shader
+ * @return Program ID for WebGL
+ */
+function createShaderProgram(gl, vertexShader, fragmentShader) {
+    var compiledVertexShader = priv_compileShader(gl, gl.VERTEX_SHADER, document.getElementById(vertexShader).text);
+    var compiledFragmentShader = priv_compileShader(gl, gl.FRAGMENT_SHADER, document.getElementById(fragmentShader).text);
+    var program = gl.createProgram();
+
+    gl.attachShader(program, compiledVertexShader);
+    gl.attachShader(program, compiledFragmentShader);
+    gl.linkProgram(program);
+
+    var success = gl.getProgramParameter(program, gl.LINK_STATUS);
+    if (success) return program;
+
+    console.log(gl.getProgramInfoLog(program));
+    gl.deleteProgram(program);
+}
+```
+
+Zu guter Letzt das wichtigste Skript, dort werden die WebGL-Funktionen
+aufgerufen.
+
+## Initialisierung
+
+Um WebGL zu initialisieren, müssen wir ein Kontext erstellen. Dazu benötigen
+wir das Canvas-Element:
+
+```js
+var canvas = document.getElementById("webgl-canvas");
+```
+
+Anschließend kann mit
+
+```js
+var gl = canvas.getContext("webgl");
+```
+
+ein WebGL-Kontext erstellt werden. Alle WebGL-Funktionen werden nun über
+die ``gl``-Variable aufgerufen.
+
+## Shader kompilieren und linken
+
+Da wir bereits eine Funktion haben, die sich darum kümmert, brauchen wir
+lediglich
+
+```js
+var program = createShaderProgram(gl, "vertex-shader", "fragment-shader");
+```
+
+zu schreiben. Für die Koordinaten benötigen wir noch eine Anbindung an den
+Shader. Diese wird erstellt mit
+
+```js
+var positionAttributeLocation = gl.getAttribLocation(program, "a_position");
+```
+
+## Koordinaten übergeben
+
+Jetzt, da wir WebGL soweit eingerichtet haben, können wir anfangen, das Dreieck
+zu definieren. Dafür brauchen wir zuerst einen Puffer, der diese Koordinaten
+enthält:
+
+```js
+var positionBuffer = gl.createBuffer();
+```
+
+Dieser Puffer muss nun aktiviert werden, um diesen mit Daten zu füllen. Um es
+in WebGL-Sprache zu übersetzen: Der Puffer muss angebunden werden:
+
+```js
+gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+```
+
+Der erste Parameter gibt an, um welche Art von Puffer es sich handelt, der
+zweite Parameter erwartet den Puffer selbst.
+
+Jetzt müssen wir die Koordinaten übergeben. Dazu muss ein eindimensionales
+Array erstellt und an WebGL übergeben werden:
+
+```js
+var vertices = [
+    /** x, y */
+    0.0, 0.0,  /** Vertex bottom-left */
+    0.0, 0.5,  /** Vertex top-left */
+    0.5, 0.0,  /** Vertex bottom-right */
+];
+
+gl.bindBuffer(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+```
+
+Der erste Parameter gibt wiederum an, um welche Art von Puffer es sich handelt,
+der zweite Parameter ein Float-Array (hier mit ``Float32Array`` erstellt, da
+WebGL zwingend ein Float-Array voraussetzt). Der letzte Parameter gibt an,
+wie oft sich diese Daten ändern werden. Da sich die Koordinaten nie ändern
+werden, wird hier ein ``gl.STATIC_DRAW`` übergeben. Damit wird WebGL mitgeteilt,
+wo die Daten im Arbeitsspeicher der GPU abgelegt werden, um den Workflow zu
+optimieren.
+
+## Vorbereitungen zum Rendern
+
+Die nachfolgenden Schritte werden stets pro Frame vorgenommen.
+
+### Kontext an Canvas-Größe anpassen
+
+Damit WebGL jeweils mit dem Browser zusammen skaliert, muss der Viewport
+gesetzt werden:
+
+```js
+gl.canvas.width = gl.canvas.clientWidth;
+gl.canvas.height = gl.canvas.clientHeight;
+
+gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+```
+
+### Hintergrundfarbe setzen
+
+Dazu wird zuerst die Farbe gesetzt und anschließend der Bildspeicher mit dieser
+Farbe gefüllt:
+
+```js
+gl.clearColor(0.2, 0.2, 0.2, 1.0);
+gl.clear(gl.COLOR_BUFFER_BIT);
+```
+
+### Shader aktivieren
+
+Jetzt muss das zuvor erstellte Shader-Programm aktiviert werden und das
+Positionsattribut angebunden werden:
+
+```js
+gl.useProgram(program);
+gl.enableVertexAttribArray(positionAttributeLocation);
+```
+
+### Koordinaten-Puffer aktivieren
+
+Der zuvor erstellte Puffer für die Koordniaten muss jetzt aktiviert werden:
+
+```js
+gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
+```
+
+Der erste Parameter der Funktion enthält die Anbindung an das Attribut im
+Vertex-Shader, der zweite Parameter die Anzahl der Dimensionen (hier 2),
+der dritte Parameter den Variablentyp. Die anderen Parameter ignorieren wir
+vorerst.
+
+### Zeichenbefehl übergeben
+
+Jetzt kommt der eigentlich wichtigste Moment, das Zeichnen des Dreiecks:
+
+```js
+gl.drawArrays(gl.TRIANGLES, 0, 3);
+```
+
+Der erste Parameter gibt an, auf welche Art er die zuvor angebundenen
+Koordinaten zeichen soll, der zweite Parameter den Offset im Array und der
+letzte Parameter die Anzahl der Koordinaten.
+
+Das waren die Schritte, die zum Zeichnen eines Dreiecks nötig waren.
