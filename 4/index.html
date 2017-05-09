@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-    <title>WebGL Tutorial - 4. Szenegraph</title>
+    <title>WebGL Tutorial - Szenegraph</title>
 
     <link rel="stylesheet" href="/webgl_tutorial/semantic.min.css">
     <link rel="stylesheet" href="/webgl_tutorial/style.css">
@@ -16,19 +16,19 @@
     <a class="item" href="/webgl_tutorial/">Startseite</a>
     
     
-    <a class="item" href="/webgl_tutorial/1-einrichtung/">1. Einrichtung</a>
+    <a class="item" href="/webgl_tutorial/1/">Einrichtung</a>
     
     
     
-    <a class="item" href="/webgl_tutorial/2-shader/">2. Shader</a>
+    <a class="item" href="/webgl_tutorial/3/">Transformationen</a>
     
     
     
-    <a class="active item" href="/webgl_tutorial/4-szenegraph/">4. Szenegraph</a>
+    <a class="item" href="/webgl_tutorial/2/">Shader</a>
     
     
     
-    <a class="item" href="/webgl_tutorial/3-transformationen/">3. Transformationen</a>
+    <a class="active item" href="/webgl_tutorial/4/">Szenegraph</a>
     
     
 </div>
@@ -42,19 +42,19 @@
                 <div class="right menu">
                     
                     
-                    <a class="item" href="/webgl_tutorial/1-einrichtung/">1. Einrichtung</a>
+                    <a class="item" href="/webgl_tutorial/1/">Einrichtung</a>
                     
                     
                     
-                    <a class="item" href="/webgl_tutorial/2-shader/">2. Shader</a>
+                    <a class="item" href="/webgl_tutorial/3/">Transformationen</a>
                     
                     
                     
-                    <a class="active item" href="/webgl_tutorial/4-szenegraph/">4. Szenegraph</a>
+                    <a class="item" href="/webgl_tutorial/2/">Shader</a>
                     
                     
                     
-                    <a class="item" href="/webgl_tutorial/3-transformationen/">3. Transformationen</a>
+                    <a class="active item" href="/webgl_tutorial/4/">Szenegraph</a>
                     
                     
                 </div>
@@ -62,7 +62,7 @@
         </div>
 
         <div class="ui text container">
-            <h1 class="ui header">4. Szenegraph</h1>
+            <h1 class="ui header">Szenegraph</h1>
             <p>In WebGL gibt es keine eingebaute Möglichkeit für Szenegraphen. Daher müssen wir uns eigene Hilfsfunktionen schreiben, um einen Szenegraphen darzustellen.</p>
 <h2 id="Struktur-erstellen"><a href="#Struktur-erstellen" class="headerlink" title="Struktur erstellen"></a>Struktur erstellen</h2><p>Zuerst benötigen wir eine Datenstruktur, mit deren Hilfe wir den Szenegraphen aufbauen können. Dazu definieren wir einen Knoten:</p>
 <pre><code class="js">var Node = function() {
