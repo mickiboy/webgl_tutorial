@@ -9,14 +9,14 @@
 
     <link rel="stylesheet" href="/webgl_tutorial/semantic.min.css">
     <link rel="stylesheet" href="/webgl_tutorial/style.css">
-  </head>
+  <link rel="stylesheet" href="/webgl_tutorial/css/prism.css" type="text/css"></head>
 
     <body>
 <div class="ui vertical inverted sidebar menu">
     <a class="item" href="/webgl_tutorial/">Startseite</a>
     
     
-    <a class="item" href="/webgl_tutorial/1/">Einrichtung</a>
+    <a class="item" href="/webgl_tutorial/2/">Shader</a>
     
     
     
@@ -24,7 +24,7 @@
     
     
     
-    <a class="item" href="/webgl_tutorial/2/">Shader</a>
+    <a class="item" href="/webgl_tutorial/1/">Einrichtung</a>
     
     
     
@@ -42,7 +42,7 @@
                 <div class="right menu">
                     
                     
-                    <a class="item" href="/webgl_tutorial/1/">Einrichtung</a>
+                    <a class="item" href="/webgl_tutorial/2/">Shader</a>
                     
                     
                     
@@ -50,7 +50,7 @@
                     
                     
                     
-                    <a class="item" href="/webgl_tutorial/2/">Shader</a>
+                    <a class="item" href="/webgl_tutorial/1/">Einrichtung</a>
                     
                     
                     
@@ -65,42 +65,42 @@
             <h1 class="ui header">Szenegraph</h1>
             <p>In WebGL gibt es keine eingebaute Möglichkeit für Szenegraphen. Daher müssen wir uns eigene Hilfsfunktionen schreiben, um einen Szenegraphen darzustellen.</p>
 <h2 id="Struktur-erstellen"><a href="#Struktur-erstellen" class="headerlink" title="Struktur erstellen"></a>Struktur erstellen</h2><p>Zuerst benötigen wir eine Datenstruktur, mit deren Hilfe wir den Szenegraphen aufbauen können. Dazu definieren wir einen Knoten:</p>
-<pre><code class="js">var Node = function() {
-  this.children = [];
-  this.localMatrix = math.eye(4);
-  this.worldMatrix = math.eye(4);
-};
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> Node <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>children <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>localMatrix <span class="token operator">=</span> math<span class="token punctuation">.</span><span class="token function">eye</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>worldMatrix <span class="token operator">=</span> math<span class="token punctuation">.</span><span class="token function">eye</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 </code></pre>
 <p>Nun benötigen wir eine Funktion, mit der man den Parent setzen kann:</p>
-<pre><code class="js">Node.prototype.setParent = function(parent) {
-  if (this.parent) {
-    var i = this.parent.children.indexOf(this);
+<pre class=" language-js"><code class="language-js">Node<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>setParent <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>parent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>parent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>parent<span class="token punctuation">.</span>children<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    if (i &gt;= 0) {
-      this.parent.children.splice(i, 1);
-    }
-  }
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">>=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>parent<span class="token punctuation">.</span>children<span class="token punctuation">.</span><span class="token function">splice</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
 
-  if (parent) {
-    parent.children.append(this);
-  }
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>parent<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    parent<span class="token punctuation">.</span>children<span class="token punctuation">.</span><span class="token function">append</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 
-  this.parent = parent;
-};
+  <span class="token keyword">this</span><span class="token punctuation">.</span>parent <span class="token operator">=</span> parent<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 </code></pre>
 <p>Jetzt brauchen wir die Möglichkeit, die Weltmatrix anhand der Lokalmatrizen der Kinder zu aktualisieren:</p>
-<pre><code class="js">Node.prototype.updateWorldMatrix = function(parentWorldMatrix) {
-  if (parentWorldMatrix) {
-    this.worldMatrix = math.multiply(this.localMatrix, parentWorldMatrix);
-  } else {
-    this.localMatrix = this.worldMatrix;
-  }
+<pre class=" language-js"><code class="language-js">Node<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span>updateWorldMatrix <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>parentWorldMatrix<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>parentWorldMatrix<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>worldMatrix <span class="token operator">=</span> math<span class="token punctuation">.</span><span class="token function">multiply</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>localMatrix<span class="token punctuation">,</span> parentWorldMatrix<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>localMatrix <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>worldMatrix<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
 
-  var worldMatrix = this.worldMatrix;
-  this.children.forEach(function(child) {
-    child.updateWorldMatrix(worldMatrix);
-  });
-};
+  <span class="token keyword">var</span> worldMatrix <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>worldMatrix<span class="token punctuation">;</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>children<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>child<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    child<span class="token punctuation">.</span><span class="token function">updateWorldMatrix</span><span class="token punctuation">(</span>worldMatrix<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
 </code></pre>
 <h2 id="Beispieldaten"><a href="#Beispieldaten" class="headerlink" title="Beispieldaten"></a>Beispieldaten</h2><p>TODO</p>
 

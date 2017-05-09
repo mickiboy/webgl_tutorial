@@ -9,14 +9,14 @@
 
     <link rel="stylesheet" href="/webgl_tutorial/semantic.min.css">
     <link rel="stylesheet" href="/webgl_tutorial/style.css">
-  </head>
+  <link rel="stylesheet" href="/webgl_tutorial/css/prism.css" type="text/css"></head>
 
     <body>
 <div class="ui vertical inverted sidebar menu">
     <a class="item" href="/webgl_tutorial/">Startseite</a>
     
     
-    <a class="active item" href="/webgl_tutorial/1/">Einrichtung</a>
+    <a class="item" href="/webgl_tutorial/2/">Shader</a>
     
     
     
@@ -24,7 +24,7 @@
     
     
     
-    <a class="item" href="/webgl_tutorial/2/">Shader</a>
+    <a class="active item" href="/webgl_tutorial/1/">Einrichtung</a>
     
     
     
@@ -42,7 +42,7 @@
                 <div class="right menu">
                     
                     
-                    <a class="active item" href="/webgl_tutorial/1/">Einrichtung</a>
+                    <a class="item" href="/webgl_tutorial/2/">Shader</a>
                     
                     
                     
@@ -50,7 +50,7 @@
                     
                     
                     
-                    <a class="item" href="/webgl_tutorial/2/">Shader</a>
+                    <a class="active item" href="/webgl_tutorial/1/">Einrichtung</a>
                     
                     
                     
@@ -67,68 +67,68 @@
 
 <p>Um mit WebGL durchzustarten, sollten wir nun schrittweise versuchen, ein einfaches, weißes Dreieck zu zeichnen. Dazu brauchen wir eine HTML-Datei, deren Körper lediglich aus einem Canvas bestehen kann. Zusätzlich müssen sowohl ein Vertex- als auch ein Fragment-Shader eingebettet werden. Was diese Shader machen, wird im nächsten Tutorial erklärt.</p>
 <h2 id="HTML-und-CSS"><a href="#HTML-und-CSS" class="headerlink" title="HTML und CSS"></a>HTML und CSS</h2><p>Da dies ein Tutorial für WebGL ist, wird der Fokus auf JavaScript gelegt, deshalb hier beispielhaft ein vollständiges HTML-Dokument, inklusive Anpassungen per CSS:</p>
-<pre><code class="html">&lt;!DOCTYPE html&gt;
-&lt;html&gt;
-  &lt;head&gt;
-    &lt;meta charset=&quot;utf-8&quot;&gt;
-    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, shrink-to-fit=no&quot;&gt;
+<pre class=" language-html"><code class="language-html"><span class="token doctype">&lt;!DOCTYPE html></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>utf-8<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>viewport<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>width<span class="token punctuation">=</span>device-width, initial-scale<span class="token punctuation">=</span>1, shrink-to-fit<span class="token punctuation">=</span>no<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
 
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>style.css<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
 
-    &lt;title&gt;WebGL Template&lt;/title&gt;
-  &lt;/head&gt;
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">></span></span>WebGL Template<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">></span></span>
 
-  &lt;body&gt;
-    &lt;canvas id=&quot;webgl-canvas&quot;&gt;&lt;/canvas&gt;
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>webgl-canvas<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">></span></span>
 
-    &lt;script id=&quot;vertex-shader&quot; type=&quot;x-shader/x-vertex&quot;&gt;
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>vertex-shader<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>x-shader/x-vertex<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
       attribute vec2 a_position;
 
       void main() {
         gl_Position = vec4(a_position, 0.0, 1.0);
       }
-    &lt;/script&gt;
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
 
-    &lt;script id=&quot;fragment-shader&quot; type=&quot;x-shader/x-fragment&quot;&gt;
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>fragment-shader<span class="token punctuation">"</span></span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>x-shader/x-fragment<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
       precision mediump float;
 
       void main() {
         gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
       }
-    &lt;/script&gt;
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
 
-    &lt;script type=&quot;text/javascript&quot; src=&quot;http://cdnjs.cloudflare.com/ajax/libs/mathjs/3.12.0/math.min.js&quot;&gt;&lt;/script&gt;
-    &lt;script type=&quot;text/javascript&quot; src=&quot;helpers.js&quot;&gt;&lt;/script&gt;
-    &lt;script type=&quot;text/javascript&quot; src=&quot;script.js&quot;&gt;&lt;/script&gt;
-  &lt;/body&gt;
-&lt;/html&gt;
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text/javascript<span class="token punctuation">"</span></span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://cdnjs.cloudflare.com/ajax/libs/mathjs/3.12.0/math.min.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text/javascript<span class="token punctuation">"</span></span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>helpers.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text/javascript<span class="token punctuation">"</span></span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>script.js<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">></span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">></span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">></span></span>
 </code></pre>
-<pre><code class="css">body {
-  margin: 0;
-}
+<pre class=" language-css"><code class="language-css"><span class="token selector">body </span><span class="token punctuation">{</span>
+  <span class="token property">margin</span><span class="token punctuation">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-#webgl-canvas {
-  width: 100vw;
-  height: 100vh;
-  display: block;
-}
+<span class="token selector"><span class="token id">#webgl-canvas</span> </span><span class="token punctuation">{</span>
+  <span class="token property">width</span><span class="token punctuation">:</span> <span class="token number">100</span>vw<span class="token punctuation">;</span>
+  <span class="token property">height</span><span class="token punctuation">:</span> <span class="token number">100</span>vh<span class="token punctuation">;</span>
+  <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>Um die Dateien lokal zu öffnen, müssen die Shader zwingend im HTML-Dokument eingebettet sein. Falls man die Shader in separate Dateien auslagern will, muss man einen lokalen Webserver einrichten, welches den Rahmen dieses Tutorials aber sprengen würde.</p>
 <p>In der HTML-Datei befinden sich auch Verweise auf mehrere JavaScripts. Das erste ist Math.js, eine Bibliothek mit vielen nützlichen mathematischen Funktionen. Das zweite Skript enthält zwei Funktionen, die dafür sorgen, dass die oben angegebenen Shader kompiliert und gelinkt werden. Dieses Skript sieht so aus:</p>
-<pre><code class="js">function priv_compileShader(gl, type, source) {
-    var shader = gl.createShader(type);
+<pre class=" language-js"><code class="language-js"><span class="token keyword">function</span> <span class="token function">priv_compileShader</span><span class="token punctuation">(</span>gl<span class="token punctuation">,</span> type<span class="token punctuation">,</span> source<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> shader <span class="token operator">=</span> gl<span class="token punctuation">.</span><span class="token function">createShader</span><span class="token punctuation">(</span>type<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    gl.shaderSource(shader, source);
-    gl.compileShader(shader);
+    gl<span class="token punctuation">.</span><span class="token function">shaderSource</span><span class="token punctuation">(</span>shader<span class="token punctuation">,</span> source<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    gl<span class="token punctuation">.</span><span class="token function">compileShader</span><span class="token punctuation">(</span>shader<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    var success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
-    if (success) return shader;
+    <span class="token keyword">var</span> success <span class="token operator">=</span> gl<span class="token punctuation">.</span><span class="token function">getShaderParameter</span><span class="token punctuation">(</span>shader<span class="token punctuation">,</span> gl<span class="token punctuation">.</span>COMPILE_STATUS<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>success<span class="token punctuation">)</span> <span class="token keyword">return</span> shader<span class="token punctuation">;</span>
 
-    console.log(gl.getShaderInfoLog(shader));
-    gl.deleteShader(shader);
-}
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>gl<span class="token punctuation">.</span><span class="token function">getShaderInfoLog</span><span class="token punctuation">(</span>shader<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    gl<span class="token punctuation">.</span><span class="token function">deleteShader</span><span class="token punctuation">(</span>shader<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-/**
+<span class="token comment" spellcheck="true">/**
  * Creates a shader program from the given source code of the vertex and
  * fragment shader.
  *
@@ -136,81 +136,81 @@
  * @param vertexShader ID of the vertex shader
  * @param fragmentShader ID of the fragment shader
  * @return Program ID for WebGL
- */
-function createShaderProgram(gl, vertexShader, fragmentShader) {
-    var compiledVertexShader = priv_compileShader(gl, gl.VERTEX_SHADER, document.getElementById(vertexShader).text);
-    var compiledFragmentShader = priv_compileShader(gl, gl.FRAGMENT_SHADER, document.getElementById(fragmentShader).text);
-    var program = gl.createProgram();
+ */</span>
+<span class="token keyword">function</span> <span class="token function">createShaderProgram</span><span class="token punctuation">(</span>gl<span class="token punctuation">,</span> vertexShader<span class="token punctuation">,</span> fragmentShader<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> compiledVertexShader <span class="token operator">=</span> <span class="token function">priv_compileShader</span><span class="token punctuation">(</span>gl<span class="token punctuation">,</span> gl<span class="token punctuation">.</span>VERTEX_SHADER<span class="token punctuation">,</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span>vertexShader<span class="token punctuation">)</span><span class="token punctuation">.</span>text<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">var</span> compiledFragmentShader <span class="token operator">=</span> <span class="token function">priv_compileShader</span><span class="token punctuation">(</span>gl<span class="token punctuation">,</span> gl<span class="token punctuation">.</span>FRAGMENT_SHADER<span class="token punctuation">,</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span>fragmentShader<span class="token punctuation">)</span><span class="token punctuation">.</span>text<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">var</span> program <span class="token operator">=</span> gl<span class="token punctuation">.</span><span class="token function">createProgram</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    gl.attachShader(program, compiledVertexShader);
-    gl.attachShader(program, compiledFragmentShader);
-    gl.linkProgram(program);
+    gl<span class="token punctuation">.</span><span class="token function">attachShader</span><span class="token punctuation">(</span>program<span class="token punctuation">,</span> compiledVertexShader<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    gl<span class="token punctuation">.</span><span class="token function">attachShader</span><span class="token punctuation">(</span>program<span class="token punctuation">,</span> compiledFragmentShader<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    gl<span class="token punctuation">.</span><span class="token function">linkProgram</span><span class="token punctuation">(</span>program<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    var success = gl.getProgramParameter(program, gl.LINK_STATUS);
-    if (success) return program;
+    <span class="token keyword">var</span> success <span class="token operator">=</span> gl<span class="token punctuation">.</span><span class="token function">getProgramParameter</span><span class="token punctuation">(</span>program<span class="token punctuation">,</span> gl<span class="token punctuation">.</span>LINK_STATUS<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>success<span class="token punctuation">)</span> <span class="token keyword">return</span> program<span class="token punctuation">;</span>
 
-    console.log(gl.getProgramInfoLog(program));
-    gl.deleteProgram(program);
-}
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>gl<span class="token punctuation">.</span><span class="token function">getProgramInfoLog</span><span class="token punctuation">(</span>program<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    gl<span class="token punctuation">.</span><span class="token function">deleteProgram</span><span class="token punctuation">(</span>program<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>Zu guter Letzt das wichtigste Skript, dort werden die WebGL-Funktionen aufgerufen.</p>
 <h2 id="Initialisierung"><a href="#Initialisierung" class="headerlink" title="Initialisierung"></a>Initialisierung</h2><p>Um WebGL zu initialisieren, müssen wir ein Kontext erstellen. Dazu benötigen wir das Canvas-Element:</p>
-<pre><code class="js">var canvas = document.getElementById(&quot;webgl-canvas&quot;);
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> canvas <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"webgl-canvas"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>Anschließend kann mit</p>
-<pre><code class="js">var gl = canvas.getContext(&quot;webgl&quot;);
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> gl <span class="token operator">=</span> canvas<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">"webgl"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>ein WebGL-Kontext erstellt werden. Alle WebGL-Funktionen werden nun über die <code>gl</code>-Variable aufgerufen.</p>
 <h2 id="Koordinaten-ubergeben"><a href="#Koordinaten-ubergeben" class="headerlink" title="Koordinaten übergeben"></a>Koordinaten übergeben</h2><p>Nachdem der Kontext erstellt wurde, können wir anfangen, das Dreieck zu definieren. Dafür brauchen wir zuerst einen Puffer, der diese Koordinaten enthält:</p>
-<pre><code class="js">var positionBuffer = gl.createBuffer();
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> positionBuffer <span class="token operator">=</span> gl<span class="token punctuation">.</span><span class="token function">createBuffer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>Dieser Puffer muss nun an WebGL angebunden (aktiviert) werden, um diesen mit Daten zu füllen:</p>
-<pre><code class="js">gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+<pre class=" language-js"><code class="language-js">gl<span class="token punctuation">.</span><span class="token function">bindBuffer</span><span class="token punctuation">(</span>gl<span class="token punctuation">.</span>ARRAY_BUFFER<span class="token punctuation">,</span> positionBuffer<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>Der erste Parameter gibt an, um welche Art von Puffer es sich handelt, der zweite Parameter erwartet den Puffer selbst.</p>
 <p>Jetzt müssen wir die Koordinaten übergeben. Dazu muss ein eindimensionales Array erstellt und an WebGL übergeben werden:</p>
-<pre><code class="js">var vertices = [
-    /** x, y */
-    0.0, 0.0,  /** Vertex bottom-left */
-    0.0, 0.5,  /** Vertex top-left */
-    0.5, 0.0,  /** Vertex bottom-right */
-];
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> vertices <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token comment" spellcheck="true">/** x, y */</span>
+    <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span>  <span class="token comment" spellcheck="true">/** Vertex bottom-left */</span>
+    <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">0.5</span><span class="token punctuation">,</span>  <span class="token comment" spellcheck="true">/** Vertex top-left */</span>
+    <span class="token number">0.5</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span>  <span class="token comment" spellcheck="true">/** Vertex bottom-right */</span>
+<span class="token punctuation">]</span><span class="token punctuation">;</span>
 
-gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+gl<span class="token punctuation">.</span><span class="token function">bufferData</span><span class="token punctuation">(</span>gl<span class="token punctuation">.</span>ARRAY_BUFFER<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Float32Array</span><span class="token punctuation">(</span>vertices<span class="token punctuation">)</span><span class="token punctuation">,</span> gl<span class="token punctuation">.</span>STATIC_DRAW<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>Der erste Parameter gibt wiederum an, um welche Art von Puffer es sich handelt, der zweite Parameter ein Float-Array (hier mit <code>Float32Array</code> erstellt, da WebGL zwingend ein Float-Array voraussetzt). Der letzte Parameter gibt an, wie oft sich diese Daten ändern werden. Da sich die Koordinaten nie ändern werden, wird hier ein <code>gl.STATIC_DRAW</code> übergeben. Damit wird WebGL mitgeteilt, wo die Daten im Arbeitsspeicher der GPU abgelegt werden, damit diese das Rendering optimieren kann.</p>
 <p>Da WebGL mindestens einen Vertex- und einen Fragment-Shader erfordert, werden wir nun diese kompilieren und linken.</p>
 <h2 id="Shader-kompilieren-und-linken"><a href="#Shader-kompilieren-und-linken" class="headerlink" title="Shader kompilieren und linken"></a>Shader kompilieren und linken</h2><p>Da wir bereits eine Funktion haben, die sich darum kümmert, brauchen wir lediglich</p>
-<pre><code class="js">var program = createShaderProgram(gl, &quot;vertex-shader&quot;, &quot;fragment-shader&quot;);
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> program <span class="token operator">=</span> <span class="token function">createShaderProgram</span><span class="token punctuation">(</span>gl<span class="token punctuation">,</span> <span class="token string">"vertex-shader"</span><span class="token punctuation">,</span> <span class="token string">"fragment-shader"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>zu schreiben. Die letzten beiden Parameter stehen jeweils für die IDs, die wir im HTML-Dokument so angegeben haben.</p>
 <p>Für die Koordinaten benötigen wir noch eine Anbindung an den Shader. Diese wird erstellt mit</p>
-<pre><code class="js">var positionAttributeLocation = gl.getAttribLocation(program, &quot;a_position&quot;);
+<pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> positionAttributeLocation <span class="token operator">=</span> gl<span class="token punctuation">.</span><span class="token function">getAttribLocation</span><span class="token punctuation">(</span>program<span class="token punctuation">,</span> <span class="token string">"a_position"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p><code>a_position</code> ist ein Attribut, der später eine Koordinate enthält.</p>
 <h2 id="Vorbereitungen-zum-Rendern"><a href="#Vorbereitungen-zum-Rendern" class="headerlink" title="Vorbereitungen zum Rendern"></a>Vorbereitungen zum Rendern</h2><p>Die nachfolgenden Schritte werden stets pro Frame vorgenommen.</p>
 <h3 id="Kontext-an-Canvas-Grose-anpassen"><a href="#Kontext-an-Canvas-Grose-anpassen" class="headerlink" title="Kontext an Canvas-Größe anpassen"></a>Kontext an Canvas-Größe anpassen</h3><p>Damit WebGL jeweils mit dem Browser zusammen skaliert, muss der Viewport gesetzt werden:</p>
-<pre><code class="js">gl.canvas.width = gl.canvas.clientWidth;
-gl.canvas.height = gl.canvas.clientHeight;
+<pre class=" language-js"><code class="language-js">gl<span class="token punctuation">.</span>canvas<span class="token punctuation">.</span>width <span class="token operator">=</span> gl<span class="token punctuation">.</span>canvas<span class="token punctuation">.</span>clientWidth<span class="token punctuation">;</span>
+gl<span class="token punctuation">.</span>canvas<span class="token punctuation">.</span>height <span class="token operator">=</span> gl<span class="token punctuation">.</span>canvas<span class="token punctuation">.</span>clientHeight<span class="token punctuation">;</span>
 
-gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+gl<span class="token punctuation">.</span><span class="token function">viewport</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> gl<span class="token punctuation">.</span>canvas<span class="token punctuation">.</span>width<span class="token punctuation">,</span> gl<span class="token punctuation">.</span>canvas<span class="token punctuation">.</span>height<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <h3 id="Hintergrundfarbe-setzen"><a href="#Hintergrundfarbe-setzen" class="headerlink" title="Hintergrundfarbe setzen"></a>Hintergrundfarbe setzen</h3><p>Dazu wird zuerst die Farbe gesetzt und anschließend der Bildspeicher mit dieser Farbe gefüllt:</p>
-<pre><code class="js">gl.clearColor(0.2, 0.2, 0.2, 1.0);
-gl.clear(gl.COLOR_BUFFER_BIT);
+<pre class=" language-js"><code class="language-js">gl<span class="token punctuation">.</span><span class="token function">clearColor</span><span class="token punctuation">(</span><span class="token number">0.2</span><span class="token punctuation">,</span> <span class="token number">0.2</span><span class="token punctuation">,</span> <span class="token number">0.2</span><span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+gl<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation">(</span>gl<span class="token punctuation">.</span>COLOR_BUFFER_BIT<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>Die erste Funktion setzt die Farbe und die zweite Funktion führt den Füllbefehl aus.</p>
 <h3 id="Shader-aktivieren"><a href="#Shader-aktivieren" class="headerlink" title="Shader aktivieren"></a>Shader aktivieren</h3><p>Jetzt muss das zuvor erstellte Shader-Programm aktiviert werden und das Positionsattribut angebunden werden:</p>
-<pre><code class="js">gl.useProgram(program);
-gl.enableVertexAttribArray(positionAttributeLocation);
+<pre class=" language-js"><code class="language-js">gl<span class="token punctuation">.</span><span class="token function">useProgram</span><span class="token punctuation">(</span>program<span class="token punctuation">)</span><span class="token punctuation">;</span>
+gl<span class="token punctuation">.</span><span class="token function">enableVertexAttribArray</span><span class="token punctuation">(</span>positionAttributeLocation<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <h3 id="Koordinaten-Puffer-aktivieren"><a href="#Koordinaten-Puffer-aktivieren" class="headerlink" title="Koordinaten-Puffer aktivieren"></a>Koordinaten-Puffer aktivieren</h3><p>Der zuvor erstellte Puffer für die Koordniaten muss jetzt wieder aktiviert werden:</p>
-<pre><code class="js">gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
+<pre class=" language-js"><code class="language-js">gl<span class="token punctuation">.</span><span class="token function">bindBuffer</span><span class="token punctuation">(</span>gl<span class="token punctuation">.</span>ARRAY_BUFFER<span class="token punctuation">,</span> positionBuffer<span class="token punctuation">)</span><span class="token punctuation">;</span>
+gl<span class="token punctuation">.</span><span class="token function">vertexAttribPointer</span><span class="token punctuation">(</span>positionAttributeLocation<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> gl<span class="token punctuation">.</span>FLOAT<span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>Der erste Parameter der zweiten Funktion enthält die Anbindung an das Attribut im Vertex-Shader, der zweite Parameter die Anzahl der Dimensionen (hier 2), der dritte Parameter den Variablentyp der Vertizen. Die anderen Parameter ignorieren wir vorerst.</p>
 <h3 id="Zeichenbefehl-ubergeben"><a href="#Zeichenbefehl-ubergeben" class="headerlink" title="Zeichenbefehl übergeben"></a>Zeichenbefehl übergeben</h3><p>Jetzt kommt der eigentlich wichtigste Moment, das Zeichnen des Dreiecks:</p>
-<pre><code class="js">gl.drawArrays(gl.TRIANGLES, 0, 3);
+<pre class=" language-js"><code class="language-js">gl<span class="token punctuation">.</span><span class="token function">drawArrays</span><span class="token punctuation">(</span>gl<span class="token punctuation">.</span>TRIANGLES<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>Der erste Parameter gibt an, auf welche Art er die zuvor angebundenen Koordinaten zeichen soll, der zweite Parameter den Offset im Array und der letzte Parameter die Anzahl der Koordinaten.</p>
 <p>Das waren die Schritte, die zum Zeichnen eines Dreiecks nötig waren. Im nächsten Tutorial gehen wir näher auf die Shader ein, deren Verständnis wichtig ist für die darauffolgenden Tutorials.</p>
