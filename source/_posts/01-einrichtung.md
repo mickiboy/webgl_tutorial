@@ -3,17 +3,11 @@ title: Einrichtung
 ---
 <div class="ui info message"><div class="header">Hinweis</div>Falls Sie es eilig haben, können Sie auch eine bereits eingerichtete Ordnerstruktur von [GitHub](https://github.com/mickiboy/webgl_template) klonen. Zusätzlich gibt es die Möglichkeit, den Browser automatisch neu laden zu lassen, sobald Sie Änderungen am Quellcode vornehmen.</div>
 
-Um mit WebGL durchzustarten, sollten wir nun schrittweise versuchen, ein
-einfaches Dreieck zu zeichnen. Dazu brauchen wir eine HTML-Datei, deren Körper
-lediglich aus einem Canvas bestehen kann. Zusätzlich müssen sowohl ein Vertex-
-als auch ein Fragment-Shader eingebettet werden. Was diese Shader machen, wird
-am Schluss erklärt.
+Um mit WebGL durchzustarten, sollten wir nun schrittweise versuchen, ein einfaches Dreieck zu zeichnen. Dazu brauchen wir eine HTML-Datei, deren Körper lediglich aus einem Canvas bestehen kann. Zusätzlich müssen sowohl ein Vertex- als auch ein Fragment-Shader eingebettet werden. Was diese Shader machen, wird im nächsten Tutorial erklärt.
 
 ## HTML und CSS
 
-Da dies ein Tutorial für WebGL ist, wird der Fokus auf JavaScript gelegt,
-deshalb hier beispielhaft ein vollständiges HTML-Dokument, inklusive
-Anpassungen per CSS:
+Da dies ein Tutorial für WebGL ist, wird der Fokus auf JavaScript gelegt, deshalb hier beispielhaft ein vollständiges HTML-Dokument, inklusive Anpassungen per CSS:
 
 ```html
 <!DOCTYPE html>
@@ -65,11 +59,7 @@ body {
 }
 ```
 
-In der HTML-Datei befinden sich auch Verweise auf mehrere JavaScripts. Das
-erste ist Math.js, eine nützliche Bibliothek mit vielen nützlichen
-mathematischen Funktionen. Das zweite Skript enthält zwei Funktionen, die
-dafür sorgen, dass die oben angegebenen Shader kompiliert werden. Dieses
-Skript sieht so aus:
+In der HTML-Datei befinden sich auch Verweise auf mehrere JavaScripts. Das erste ist Math.js, eine nützliche Bibliothek mit vielen nützlichen mathematischen Funktionen. Das zweite Skript enthält zwei Funktionen, die dafür sorgen, dass die oben angegebenen Shader kompiliert werden. Dieses Skript sieht so aus:
 
 ```js
 function priv_compileShader(gl, type, source) {
@@ -111,13 +101,11 @@ function createShaderProgram(gl, vertexShader, fragmentShader) {
 }
 ```
 
-Zu guter Letzt das wichtigste Skript, dort werden die WebGL-Funktionen
-aufgerufen.
+Zu guter Letzt das wichtigste Skript, dort werden die WebGL-Funktionen aufgerufen.
 
 ## Initialisierung
 
-Um WebGL zu initialisieren, müssen wir ein Kontext erstellen. Dazu benötigen
-wir das Canvas-Element:
+Um WebGL zu initialisieren, müssen wir ein Kontext erstellen. Dazu benötigen wir das Canvas-Element:
 
 ```js
 var canvas = document.getElementById("webgl-canvas");
@@ -129,20 +117,17 @@ Anschließend kann mit
 var gl = canvas.getContext("webgl");
 ```
 
-ein WebGL-Kontext erstellt werden. Alle WebGL-Funktionen werden nun über
-die ``gl``-Variable aufgerufen.
+ein WebGL-Kontext erstellt werden. Alle WebGL-Funktionen werden nun über die ``gl``-Variable aufgerufen.
 
 ## Shader kompilieren und linken
 
-Da wir bereits eine Funktion haben, die sich darum kümmert, brauchen wir
-lediglich
+Da wir bereits eine Funktion haben, die sich darum kümmert, brauchen wir lediglich
 
 ```js
 var program = createShaderProgram(gl, "vertex-shader", "fragment-shader");
 ```
 
-zu schreiben. Für die Koordinaten benötigen wir noch eine Anbindung an den
-Shader. Diese wird erstellt mit
+zu schreiben. Für die Koordinaten benötigen wir noch eine Anbindung an den Shader. Diese wird erstellt mit
 
 ```js
 var positionAttributeLocation = gl.getAttribLocation(program, "a_position");
@@ -150,26 +135,21 @@ var positionAttributeLocation = gl.getAttribLocation(program, "a_position");
 
 ## Koordinaten übergeben
 
-Jetzt, da wir WebGL soweit eingerichtet haben, können wir anfangen, das Dreieck
-zu definieren. Dafür brauchen wir zuerst einen Puffer, der diese Koordinaten
-enthält:
+Jetzt, da wir WebGL soweit eingerichtet haben, können wir anfangen, das Dreieck zu definieren. Dafür brauchen wir zuerst einen Puffer, der diese Koordinaten enthält:
 
 ```js
 var positionBuffer = gl.createBuffer();
 ```
 
-Dieser Puffer muss nun aktiviert werden, um diesen mit Daten zu füllen. Um es
-in WebGL-Sprache zu übersetzen: Der Puffer muss angebunden werden:
+Dieser Puffer muss nun aktiviert werden, um diesen mit Daten zu füllen. Um es in WebGL-Sprache zu übersetzen: Der Puffer muss angebunden werden:
 
 ```js
 gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 ```
 
-Der erste Parameter gibt an, um welche Art von Puffer es sich handelt, der
-zweite Parameter erwartet den Puffer selbst.
+Der erste Parameter gibt an, um welche Art von Puffer es sich handelt, der zweite Parameter erwartet den Puffer selbst.
 
-Jetzt müssen wir die Koordinaten übergeben. Dazu muss ein eindimensionales
-Array erstellt und an WebGL übergeben werden:
+Jetzt müssen wir die Koordinaten übergeben. Dazu muss ein eindimensionales Array erstellt und an WebGL übergeben werden:
 
 ```js
 var vertices = [
@@ -182,13 +162,7 @@ var vertices = [
 gl.bindBuffer(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
 ```
 
-Der erste Parameter gibt wiederum an, um welche Art von Puffer es sich handelt,
-der zweite Parameter ein Float-Array (hier mit ``Float32Array`` erstellt, da
-WebGL zwingend ein Float-Array voraussetzt). Der letzte Parameter gibt an,
-wie oft sich diese Daten ändern werden. Da sich die Koordinaten nie ändern
-werden, wird hier ein ``gl.STATIC_DRAW`` übergeben. Damit wird WebGL mitgeteilt,
-wo die Daten im Arbeitsspeicher der GPU abgelegt werden, um den Workflow zu
-optimieren.
+Der erste Parameter gibt wiederum an, um welche Art von Puffer es sich handelt, der zweite Parameter ein Float-Array (hier mit ``Float32Array`` erstellt, da WebGL zwingend ein Float-Array voraussetzt). Der letzte Parameter gibt an, wie oft sich diese Daten ändern werden. Da sich die Koordinaten nie ändern werden, wird hier ein ``gl.STATIC_DRAW`` übergeben. Damit wird WebGL mitgeteilt, wo die Daten im Arbeitsspeicher der GPU abgelegt werden, um den Workflow zu optimieren.
 
 ## Vorbereitungen zum Rendern
 
@@ -196,8 +170,7 @@ Die nachfolgenden Schritte werden stets pro Frame vorgenommen.
 
 ### Kontext an Canvas-Größe anpassen
 
-Damit WebGL jeweils mit dem Browser zusammen skaliert, muss der Viewport
-gesetzt werden:
+Damit WebGL jeweils mit dem Browser zusammen skaliert, muss der Viewport gesetzt werden:
 
 ```js
 gl.canvas.width = gl.canvas.clientWidth;
@@ -208,8 +181,7 @@ gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
 ### Hintergrundfarbe setzen
 
-Dazu wird zuerst die Farbe gesetzt und anschließend der Bildspeicher mit dieser
-Farbe gefüllt:
+Dazu wird zuerst die Farbe gesetzt und anschließend der Bildspeicher mit dieser Farbe gefüllt:
 
 ```js
 gl.clearColor(0.2, 0.2, 0.2, 1.0);
@@ -218,8 +190,7 @@ gl.clear(gl.COLOR_BUFFER_BIT);
 
 ### Shader aktivieren
 
-Jetzt muss das zuvor erstellte Shader-Programm aktiviert werden und das
-Positionsattribut angebunden werden:
+Jetzt muss das zuvor erstellte Shader-Programm aktiviert werden und das Positionsattribut angebunden werden:
 
 ```js
 gl.useProgram(program);
@@ -235,10 +206,7 @@ gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 gl.vertexAttribPointer(positionAttributeLocation, 2, gl.FLOAT, false, 0, 0);
 ```
 
-Der erste Parameter der Funktion enthält die Anbindung an das Attribut im
-Vertex-Shader, der zweite Parameter die Anzahl der Dimensionen (hier 2),
-der dritte Parameter den Variablentyp. Die anderen Parameter ignorieren wir
-vorerst.
+Der erste Parameter der Funktion enthält die Anbindung an das Attribut im Vertex-Shader, der zweite Parameter die Anzahl der Dimensionen (hier 2), der dritte Parameter den Variablentyp. Die anderen Parameter ignorieren wir vorerst.
 
 ### Zeichenbefehl übergeben
 
@@ -248,8 +216,6 @@ Jetzt kommt der eigentlich wichtigste Moment, das Zeichnen des Dreiecks:
 gl.drawArrays(gl.TRIANGLES, 0, 3);
 ```
 
-Der erste Parameter gibt an, auf welche Art er die zuvor angebundenen
-Koordinaten zeichen soll, der zweite Parameter den Offset im Array und der
-letzte Parameter die Anzahl der Koordinaten.
+Der erste Parameter gibt an, auf welche Art er die zuvor angebundenen Koordinaten zeichen soll, der zweite Parameter den Offset im Array und der letzte Parameter die Anzahl der Koordinaten.
 
 Das waren die Schritte, die zum Zeichnen eines Dreiecks nötig waren.
