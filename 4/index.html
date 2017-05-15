@@ -16,11 +16,11 @@
     <a class="item" href="/webgl_tutorial/">Startseite</a>
     
     
+    <a class="active item" href="/webgl_tutorial/4/">Szenegraph</a>
+    
+    
+    
     <a class="item" href="/webgl_tutorial/2/">Shader</a>
-    
-    
-    
-    <a class="item" href="/webgl_tutorial/3/">Transformationen</a>
     
     
     
@@ -28,7 +28,7 @@
     
     
     
-    <a class="active item" href="/webgl_tutorial/4/">Szenegraph</a>
+    <a class="item" href="/webgl_tutorial/3/">Transformationen</a>
     
     
 </div>
@@ -42,11 +42,11 @@
                 <div class="right menu">
                     
                     
+                    <a class="active item" href="/webgl_tutorial/4/">Szenegraph</a>
+                    
+                    
+                    
                     <a class="item" href="/webgl_tutorial/2/">Shader</a>
-                    
-                    
-                    
-                    <a class="item" href="/webgl_tutorial/3/">Transformationen</a>
                     
                     
                     
@@ -54,7 +54,7 @@
                     
                     
                     
-                    <a class="active item" href="/webgl_tutorial/4/">Szenegraph</a>
+                    <a class="item" href="/webgl_tutorial/3/">Transformationen</a>
                     
                     
                 </div>
@@ -102,7 +102,40 @@
   <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span class="token punctuation">;</span>
 </code></pre>
-<h2 id="Beispieldaten"><a href="#Beispieldaten" class="headerlink" title="Beispieldaten"></a>Beispieldaten</h2><p>TODO</p>
+<h2 id="Beispiel"><a href="#Beispiel" class="headerlink" title="Beispiel"></a>Beispiel</h2><p>Als einfaches Beispiel nehmen wir uns ein Rechteck, welches um 45 Grad rotiert und an zwei unterschiedlichen Positionen verschoben wird. Dazu:</p>
+<pre class=" language-js"><code class="language-js"><span class="token comment" spellcheck="true">// Ursprungsrechteck mit Rotation</span>
+<span class="token keyword">var</span> rectangle0 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Node</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+rectangle0<span class="token punctuation">.</span>localMatrix <span class="token operator">=</span> math<span class="token punctuation">.</span><span class="token function">multiply</span><span class="token punctuation">(</span>math<span class="token punctuation">.</span><span class="token function">matrix</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+    <span class="token punctuation">[</span>math<span class="token punctuation">.</span><span class="token function">cos</span><span class="token punctuation">(</span>math<span class="token punctuation">.</span><span class="token function">unit</span><span class="token punctuation">(</span><span class="token number">45</span><span class="token punctuation">,</span> <span class="token string">'deg'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">-</span>math<span class="token punctuation">.</span><span class="token function">sin</span><span class="token punctuation">(</span>math<span class="token punctuation">.</span><span class="token function">unit</span><span class="token punctuation">(</span><span class="token number">45</span><span class="token punctuation">,</span> <span class="token string">'deg'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span>math<span class="token punctuation">.</span><span class="token function">sin</span><span class="token punctuation">(</span>math<span class="token punctuation">.</span><span class="token function">unit</span><span class="token punctuation">(</span><span class="token number">45</span><span class="token punctuation">,</span> <span class="token string">'deg'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>  math<span class="token punctuation">.</span><span class="token function">cos</span><span class="token punctuation">(</span>math<span class="token punctuation">.</span><span class="token function">unit</span><span class="token punctuation">(</span><span class="token number">45</span><span class="token punctuation">,</span> <span class="token string">'deg'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">]</span>
+<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> rectangle0<span class="token punctuation">.</span>localMatrix<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// Rechteck 3 Einheiten vom Ursprungsrechteck entfernt</span>
+<span class="token keyword">var</span> rectangle1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Node</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+rectangle1<span class="token punctuation">.</span>localMatrix <span class="token operator">=</span> math<span class="token punctuation">.</span><span class="token function">multiply</span><span class="token punctuation">(</span>math<span class="token punctuation">.</span><span class="token function">matrix</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+    <span class="token punctuation">[</span><span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">3.0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">]</span>
+<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> rectangle1<span class="token punctuation">.</span>localMatrix<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// Rechteck 1 Einheit vom Ursprungsrechteck entfernt</span>
+<span class="token keyword">var</span> rectangle2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Node</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+rectangle2<span class="token punctuation">.</span>localMatrix <span class="token operator">=</span> math<span class="token punctuation">.</span><span class="token function">multiply</span><span class="token punctuation">(</span>math<span class="token punctuation">.</span><span class="token function">matrix</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+    <span class="token punctuation">[</span><span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token punctuation">[</span><span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">]</span>
+<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">,</span> rectangle2<span class="token punctuation">.</span>localMatrix<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+rectangle1<span class="token punctuation">.</span><span class="token function">setParent</span><span class="token punctuation">(</span>rectangle0<span class="token punctuation">)</span><span class="token punctuation">;</span>
+rectangle2<span class="token punctuation">.</span><span class="token function">setParent</span><span class="token punctuation">(</span>rectangle0<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+rectangle0<span class="token punctuation">.</span><span class="token function">updateWorldMatrix</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Nun befinden sich in den Rechtecken die jeweiligen Weltmatrizen, die man pro Rechteck dann mit der Ansichts- und Projektionsmatrix multipliziert, um diese Endmatrix dann an den Shader zu übergeben.</p>
 
         </div>
     </div>
