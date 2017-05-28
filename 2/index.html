@@ -15,21 +15,16 @@
 <div class="ui vertical inverted sidebar menu">
     <a class="item" href="/webgl_tutorial/">Startseite</a>
     
-    
-    <a class="item" href="/webgl_tutorial/4/">Szenegraph</a>
-    
+    <a class="item" href="/webgl_tutorial/1">Einrichtung</a>
     
     
-    <a class="active item" href="/webgl_tutorial/2/">Shader</a>
+    <a class="item" href="/webgl_tutorial/2">Shader</a>
     
     
-    
-    <a class="item" href="/webgl_tutorial/1/">Einrichtung</a>
-    
+    <a class="item" href="/webgl_tutorial/3">Transformationen</a>
     
     
-    <a class="item" href="/webgl_tutorial/3/">Transformationen</a>
-    
+    <a class="item" href="/webgl_tutorial/4">Szenegraph</a>
     
 </div>
 
@@ -41,21 +36,16 @@
                 <a class="header item" href="/webgl_tutorial/">WebGL Tutorial</a>
                 <div class="right menu">
                     
-                    
-                    <a class="item" href="/webgl_tutorial/4/">Szenegraph</a>
-                    
+                    <a class="item" href="/webgl_tutorial/1">Einrichtung</a>
                     
                     
-                    <a class="active item" href="/webgl_tutorial/2/">Shader</a>
+                    <a class="item" href="/webgl_tutorial/2">Shader</a>
                     
                     
-                    
-                    <a class="item" href="/webgl_tutorial/1/">Einrichtung</a>
-                    
+                    <a class="item" href="/webgl_tutorial/3">Transformationen</a>
                     
                     
-                    <a class="item" href="/webgl_tutorial/3/">Transformationen</a>
-                    
+                    <a class="item" href="/webgl_tutorial/4">Szenegraph</a>
                     
                 </div>
             </div>
@@ -63,7 +53,47 @@
 
         <div class="ui text container">
             <h1 class="ui header">Shader</h1>
-            <div class="ui info message"><div class="header">TODO</div>TODO</div>
+            <p>Seit DirectX 10 (genauer gesagt Direct3D 10) und OpenGL 3.2 sind Entwickler, die diese APIs nutzen wollen, verpflichtet, einen Vertex- und einen Fragment-Shader (Pixel-Shader in Microsoft-Sprache) zu schreiben. Das macht den Einstieg in die Grafikprogrammierung nicht unbedingt einfacher, aber da ein Shader nichts Magisches ist, sollte man damit leben können.</p>
+<p>Shader sind Programme, die direkt auf der GPU der Grafikkarte laufen, also nicht auf der CPU. Es gibt dann noch weitere Shader, die man programmieren kann, wie z. B. Geometry-Shader oder Tesselation-Shader, welche hier aber nicht angesprochen werden. Da Vertex- und Fragment-Shader sowieso programmiert werden müssen, reicht es auch erstmal, dass man weiß, was diese Programme machen.</p>
+<p>Erinnern Sie sich noch an die Grafik-Pipeline? Diese einzelnen Stufen sind die Shader, obwohl längst nicht alle Stufen programmierbar sind. Allgemein heißt das also, dass Shader immer Eingabedaten haben, damit etwas anstellen und diese anschließend in Ausgabevariablen zu speichern, welche dann von der nächsten Stufe der Grafik-Pipeline verarbeitet werden.</p>
+<h2 id="Vertex-Shader"><a href="#Vertex-Shader" class="headerlink" title="Vertex-Shader"></a>Vertex-Shader</h2><p>Ein Vertex-Shader bekommt als <strong>Eingabedaten genau einen Vertex</strong>. Das Format kann selbstständig an die eigenen Bedürfnisse festgelegt werden, also ob es zweidimensional ist oder noch zusätzliche Informationen außer der Position enthält. Dieser Vertex kann dann nach Belieben manipuliert werden, anschließend muss man als <strong>Ausgabeformat einen Vektor mit vier Komponenten</strong> angeben. In WebGL und älteren OpenGL-Versionen gibt es die feste Ausgabevariable <code>gl_Position</code>, in neueren OpenGL-Versionen benutzt man dafür die <code>out</code>-Variablen, die eigenständig definiert werden müssen.</p>
+<p>Im letzten Tutorial sah der Code unseres Vertex-Shaders so aus:</p>
+<pre class=" language-glsl"><code class="language-glsl"><span class="token keyword">attribute</span> <span class="token keyword">vec2</span> a_position<span class="token punctuation">;</span>
+
+<span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  gl_Position <span class="token operator">=</span> <span class="token keyword">vec4</span><span class="token punctuation">(</span>a_position<span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>In WebGL nennt man die Eingangsvariable auch Attribut. Hier befindet sich der Vertex <code>a_position</code>, ein Vektor mit zwei Komponenten. In der <code>main</code>-Funktion geben wir der Ausgabevariable <code>gl_Position</code> einen neu erstellten Vektor mit vier Komponenten.</p>
+<p>Im nächsten Tutorial lernen wir, wie man den Vertex-Shader für Transformationen benutzt.</p>
+<h2 id="Fragment-Shader"><a href="#Fragment-Shader" class="headerlink" title="Fragment-Shader"></a>Fragment-Shader</h2><p>Der Fragment-Shader braucht keine Eingabedaten, kann aber welche vom Vertex-Shader erhalten, sofern diese auch dort in einer Ausgabevariable gespeichert werden. Das <strong>Ausgabeformat ist wieder ein Vektor mit vier Komponenten</strong>, welche den RGBA-Anteil der Farbe <strong>eines</strong> Vertex angeben.</p>
+<p>So sah der Code im letzten Tutorial aus:</p>
+<pre class=" language-glsl"><code class="language-glsl"><span class="token keyword">precision</span> <span class="token keyword">mediump</span> <span class="token keyword">float</span><span class="token punctuation">;</span>
+
+<span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  gl_FragColor <span class="token operator">=</span> <span class="token keyword">vec4</span><span class="token punctuation">(</span><span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Nicht großartig spektakulär, hier wird in der ersten Zeile die Präzision von Fließkommazahlen definiert und in der vierten Zeile eine weiße Farbe eines Vertex übergeben.</p>
+<h2 id="Uniforms"><a href="#Uniforms" class="headerlink" title="Uniforms"></a>Uniforms</h2><p>Uniforms sind globale Variablen, die in jedem Shader aufgerufen werden können. Sie dienen als eine Art Schnittstelle zwischen CPU und GPU. Das Datenformat kann hier nahezu beliebig gewählt werden (was nicht heißen soll, dass Strings übergeben werden können). Beispielsweise könnte man im normalen Programmcode eine Variable für eine Farbe haben und diese dann später dem Fragment-Shader übergeben.</p>
+<p>Zuerst ändern wir unseren Fragment-Shader, indem wir eine Uniform definieren und diese der Ausgabevariable übergeben:</p>
+<pre class=" language-glsl"><code class="language-glsl"><span class="token keyword">precision</span> <span class="token keyword">mediump</span> <span class="token keyword">float</span><span class="token punctuation">;</span>
+
+<span class="token keyword">uniform</span> <span class="token keyword">vec4</span> u_color<span class="token punctuation">;</span>
+
+<span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    gl_FragColor <span class="token operator">=</span> u_color<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Dann definieren wir am Anfang unseres WebGL-Codes eine Farbe:</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">var</span> redColor <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">0.0</span><span class="token punctuation">,</span> <span class="token number">1.0</span><span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">// RGBA</span>
+</code></pre>
+<p>Wir speichern uns im WebGL-Code nun in einer Variable die ID der Uniform, direkt nachdem wir das Shader-Programm erstellt haben:</p>
+<pre class=" language-javascript"><code class="language-javascript"><span class="token keyword">var</span> colorUniformLocation <span class="token operator">=</span> gl<span class="token punctuation">.</span><span class="token function">getUniformLocation</span><span class="token punctuation">(</span>program<span class="token punctuation">,</span> <span class="token string">"u_color"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Jetzt können wir, kurz bevor <code>glDrawArrays</code> aufgerufen wird, die rote Farbe in der Uniform speichern:</p>
+<pre class=" language-javascript"><code class="language-javascript">gl<span class="token punctuation">.</span><span class="token function">uniform4fv</span><span class="token punctuation">(</span>colorUniformLocation<span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token class-name">Float32Array</span><span class="token punctuation">(</span>redColor<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
 
         </div>
     </div>

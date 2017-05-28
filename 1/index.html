@@ -15,21 +15,16 @@
 <div class="ui vertical inverted sidebar menu">
     <a class="item" href="/webgl_tutorial/">Startseite</a>
     
-    
-    <a class="item" href="/webgl_tutorial/4/">Szenegraph</a>
-    
+    <a class="item" href="/webgl_tutorial/1">Einrichtung</a>
     
     
-    <a class="item" href="/webgl_tutorial/2/">Shader</a>
+    <a class="item" href="/webgl_tutorial/2">Shader</a>
     
     
-    
-    <a class="active item" href="/webgl_tutorial/1/">Einrichtung</a>
-    
+    <a class="item" href="/webgl_tutorial/3">Transformationen</a>
     
     
-    <a class="item" href="/webgl_tutorial/3/">Transformationen</a>
-    
+    <a class="item" href="/webgl_tutorial/4">Szenegraph</a>
     
 </div>
 
@@ -41,21 +36,16 @@
                 <a class="header item" href="/webgl_tutorial/">WebGL Tutorial</a>
                 <div class="right menu">
                     
-                    
-                    <a class="item" href="/webgl_tutorial/4/">Szenegraph</a>
-                    
+                    <a class="item" href="/webgl_tutorial/1">Einrichtung</a>
                     
                     
-                    <a class="item" href="/webgl_tutorial/2/">Shader</a>
+                    <a class="item" href="/webgl_tutorial/2">Shader</a>
                     
                     
-                    
-                    <a class="active item" href="/webgl_tutorial/1/">Einrichtung</a>
-                    
+                    <a class="item" href="/webgl_tutorial/3">Transformationen</a>
                     
                     
-                    <a class="item" href="/webgl_tutorial/3/">Transformationen</a>
-                    
+                    <a class="item" href="/webgl_tutorial/4">Szenegraph</a>
                     
                 </div>
             </div>
@@ -65,7 +55,7 @@
             <h1 class="ui header">Einrichtung</h1>
             <div class="ui info message"><div class="header">Hinweis</div>Falls Sie mehr Komfort benötigen, können Sie auch eine bereits eingerichtete Ordnerstruktur von <a href="https://github.com/mickiboy/webgl_template" target="_blank" rel="external">GitHub</a> klonen. Zusätzlich gibt es die Möglichkeit, den Browser automatisch neu laden zu lassen, sobald Sie Änderungen am Quellcode vornehmen.</div>
 
-<p>Um mit WebGL durchzustarten, sollten wir nun schrittweise versuchen, ein einfaches, weißes Dreieck zu zeichnen. Dazu brauchen wir eine HTML-Datei, deren Körper lediglich aus einem Canvas bestehen kann. Zusätzlich müssen sowohl ein Vertex- als auch ein Fragment-Shader eingebettet werden. Was diese Shader machen, wird im nächsten Tutorial erklärt.</p>
+<p>Um mit WebGL durchzustarten, sollten wir nun schrittweise versuchen, ein einfaches, weißes Dreieck zu zeichnen. Dazu brauchen wir eine HTML-Datei, deren Körper lediglich aus einem Canvas bestehen kann. Zusätzlich müssen sowohl ein Vertex- als auch ein Fragment-Shader eingebettet werden. Was diese Shader sind und machen, wird im nächsten Tutorial erklärt. Es reicht, lediglich zu wissen, dass Shader kleine Programme sind, die wie C- oder C++-Programme kompiliert und gelinkt werden müssen.</p>
 <h2 id="HTML-und-CSS"><a href="#HTML-und-CSS" class="headerlink" title="HTML und CSS"></a>HTML und CSS</h2><p>Da dies ein Tutorial für WebGL ist, wird der Fokus auf JavaScript gelegt, deshalb hier beispielhaft ein vollständiges HTML-Dokument, inklusive Anpassungen per CSS:</p>
 <pre class=" language-html"><code class="language-html"><span class="token doctype">&lt;!DOCTYPE html></span>
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span><span class="token punctuation">></span></span>
@@ -183,7 +173,7 @@ gl<span class="token punctuation">.</span><span class="token function">bufferDat
 <h2 id="Shader-kompilieren-und-linken"><a href="#Shader-kompilieren-und-linken" class="headerlink" title="Shader kompilieren und linken"></a>Shader kompilieren und linken</h2><p>Da wir bereits eine Funktion haben, die sich darum kümmert, brauchen wir lediglich</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> program <span class="token operator">=</span> <span class="token function">createShaderProgram</span><span class="token punctuation">(</span>gl<span class="token punctuation">,</span> <span class="token string">"vertex-shader"</span><span class="token punctuation">,</span> <span class="token string">"fragment-shader"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
-<p>zu schreiben. Die letzten beiden Parameter stehen jeweils für die IDs, die wir im HTML-Dokument so angegeben haben.</p>
+<p>zu schreiben. Die letzten beiden Parameter stehen jeweils für die IDs, die wir im so HTML-Dokument angegeben haben.</p>
 <p>Für die Koordinaten benötigen wir noch eine Anbindung an den Shader. Diese wird erstellt mit</p>
 <pre class=" language-js"><code class="language-js"><span class="token keyword">var</span> positionAttributeLocation <span class="token operator">=</span> gl<span class="token punctuation">.</span><span class="token function">getAttribLocation</span><span class="token punctuation">(</span>program<span class="token punctuation">,</span> <span class="token string">"a_position"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
