@@ -1,8 +1,9 @@
 <div class="ui vertical inverted sidebar menu">
     <a class="active item" href="<%- url_for() %>">Startseite</a>
-    <% site.posts.each(function(post) { %>
-    <a class="item" href="<%- url_for(post.path) %>"><%- post.title %></a>
-    <% }) %>
+    <a class="item" href="<%- url_for('1') %>">Einrichtung</a>
+    <a class="item" href="<%- url_for('2') %>">Shader</a>
+    <a class="item" href="<%- url_for('3') %>">Transformationen</a>
+    <a class="item" href="<%- url_for('4') %>">Szenegraph</a>
 </div>
 
 <div class="pusher">
@@ -14,9 +15,10 @@
                 <a class="toc item"><i class="sidebar icon"></i></a>
                 <a class="header item" href="<%- url_for() %>">WebGL Tutorial</a>
                 <div class="right menu">
-                    <% site.posts.each(function(post) { %>
-                    <a class="item" href="<%- url_for(post.path) %>"><%- post.title %></a>
-                    <% }) %>
+                    <a class="item" href="<%- url_for('1') %>">Einrichtung</a>
+                    <a class="item" href="<%- url_for('2') %>">Shader</a>
+                    <a class="item" href="<%- url_for('3') %>">Transformationen</a>
+                    <a class="item" href="<%- url_for('4') %>">Szenegraph</a>
                 </div>
             </div>
         </div>

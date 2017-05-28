@@ -1,12 +1,25 @@
 <div class="ui vertical inverted sidebar menu">
     <a class="item" href="<%- url_for() %>">Startseite</a>
-    <% site.posts.each(function(post) { %>
-    <% if (is_current(post.path)) { %>
-    <a class="active item" href="<%- url_for(post.path) %>"><%- post.title %></a>
+    <% if (is_current('1')) { %>
+    <a class="active item" href="<%- url_for('1') %>">Einrichtung</a>
     <% } else { %>
-    <a class="item" href="<%- url_for(post.path) %>"><%- post.title %></a>
+    <a class="item" href="<%- url_for('1') %>">Einrichtung</a>
     <% } %>
-    <% }) %>
+    <% if (is_current('2')) { %>
+    <a class="active item" href="<%- url_for('2') %>">Shader</a>
+    <% } else { %>
+    <a class="item" href="<%- url_for('2') %>">Shader</a>
+    <% } %>
+    <% if (is_current('3')) { %>
+    <a class="active item" href="<%- url_for('3') %>">Transformationen</a>
+    <% } else { %>
+    <a class="item" href="<%- url_for('3') %>">Transformationen</a>
+    <% } %>
+    <% if (is_current('4')) { %>
+    <a class="active item" href="<%- url_for('4') %>">Szenegraph</a>
+    <% } else { %>
+    <a class="item" href="<%- url_for('4') %>">Szenegraph</a>
+    <% } %>
 </div>
 
 <div class="pusher">
@@ -16,13 +29,26 @@
                 <a class="toc item"><i class="sidebar icon"></i></a>
                 <a class="header item" href="<%- url_for() %>">WebGL Tutorial</a>
                 <div class="right menu">
-                    <% site.posts.each(function(post) { %>
-                    <% if (is_current(post.path)) { %>
-                    <a class="active item" href="<%- url_for(post.path) %>"><%- post.title %></a>
+                    <% if (is_current('1')) { %>
+                    <a class="active item" href="<%- url_for('1') %>">Einrichtung</a>
                     <% } else { %>
-                    <a class="item" href="<%- url_for(post.path) %>"><%- post.title %></a>
+                    <a class="item" href="<%- url_for('1') %>">Einrichtung</a>
                     <% } %>
-                    <% }) %>
+                    <% if (is_current('2')) { %>
+                    <a class="active item" href="<%- url_for('2') %>">Shader</a>
+                    <% } else { %>
+                    <a class="item" href="<%- url_for('2') %>">Shader</a>
+                    <% } %>
+                    <% if (is_current('3')) { %>
+                    <a class="active item" href="<%- url_for('3') %>">Transformationen</a>
+                    <% } else { %>
+                    <a class="item" href="<%- url_for('3') %>">Transformationen</a>
+                    <% } %>
+                    <% if (is_current('4')) { %>
+                    <a class="active item" href="<%- url_for('4') %>">Szenegraph</a>
+                    <% } else { %>
+                    <a class="item" href="<%- url_for('4') %>">Szenegraph</a>
+                    <% } %>
                 </div>
             </div>
         </div>
